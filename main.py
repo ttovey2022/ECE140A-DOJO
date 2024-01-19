@@ -23,6 +23,20 @@ def get_basics_html() -> HTMLResponse:
 
 
 # add the remaining endpoints here
+@app.get("/web_serving", response_class=HTMLResponse) #can be json, html, etc.
+def get_web_serving_html() -> HTMLResponse: #function will return this HTML, -> means this will do this thing
+    with open("templates/web_serving.html") as html:
+        return HTMLResponse(content=html.read()) 
+    
+@app.get("/web_development", response_class=HTMLResponse) 
+def get_web_development() -> HTMLResponse:
+    with open("templates/web_development.html") as html:
+        return HTMLResponse(content =html.read())
+
+@app.get("/view_notes", response_class=HTMLResponse) #reads the notes and does the 
+def get_view_notes() -> HTMLResponse:
+    with open("templates/notes.html") as html:
+        return HTMLResponse(content =html.read())
 
 @app.get("/notes")
 async def read_notes():
@@ -37,7 +51,7 @@ async def read_notes():
         content = "No notes yet."
     return {"notes": content}
 
-
+#something benefiting from being asynchronous, taking a long time like opening a file
 @app.post("/notes")
 async def write_notes(note: str = Form(...)):
     """
